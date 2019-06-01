@@ -4,7 +4,9 @@ CTPN+Densenet+CTC
 2，基于Densenet+CTC进行文本识别  
   
 ### 环境部署  
+```python
 sh setup.sh  
+```
 CPU环境执行前需注释掉for gpu部分，并解开for cpu部分的注释  
   
 ### 推理     
