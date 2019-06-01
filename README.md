@@ -2,8 +2,8 @@
 CTPN+Densenet+CTC  
 1，基于CTPN进行文本检测  
 2，基于Densenet+CTC进行文本识别  
-  
-  
+        
+          
 第一部分（CTPN):   
 CTPN步骤：  
 1.首先，用VGG16的前5个Conv stage得到feature map，大小为W*H*C。  
@@ -14,8 +14,8 @@ CTPN步骤：
 重点:  
 1.anchor:和faster-rcnn中的RPN的主要区别在于引入了微分思想，将我们的的候选区域切成长条形的框来进行处理。k个anchor（也就是k个待选的长条预选区域）的设置如下：宽度都是16像素，高度从11~273像素变化（每次乘以1.4）。  
 2.RNN用于记录上一时刻状态，LSTM长短记忆之前的状态信息，BLSTM（双向LSTM）可以长短记忆之前和之后的状态信息。   
-3.anchor文本框的合并，主要是采用pairs的形式。   
-  
-  
+3.anchor文本框的合并，主要是采用pairs的形式。  
+        
+            
 第二部分（Densenet）：  
 待补充  
