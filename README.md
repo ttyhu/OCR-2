@@ -2,13 +2,24 @@
 CTPN+Densenet+CTC   
 1，基于CTPN进行文本检测  
 2，基于Densenet+CTC进行文本识别  
+  
 ### 环境部署  
+sh setup.sh  
+CPU环境执行前需注释掉for gpu部分，并解开for cpu部分的注释  
   
-### 推理    
+### 推理     
+将测试图片放入test_images目录，检测结果会保存到test_result中  
+python test.py   
+
+### 训练  
+1.CTPN训练，详见ctpn/README.md     
+2.Densenet训练   
+数据集：https://pan.baidu.com/s/1QkI7kjah8SPHwOQ40rS1Pw (密码：lu7m)  
+共约364万张图片，按照99:1划分，图片分辨率统一为280x32，图片解压后放置到train/images目录下，描述文件放到train目录下。  
+cd train
+python train.py
   
-### 测试  
-      
-### 原理
+### 原理  
 第一部分（CTPN):   
 CTPN步骤：  
 1.首先，用VGG16的前5个Conv stage得到 feature map，大小为 W×H×C。  
