@@ -1,9 +1,15 @@
 # OCR
-CTPN+Densenet+CTC  
+CTPN+Densenet+CTC   
 1，基于CTPN进行文本检测  
 2，基于Densenet+CTC进行文本识别  
-        
-          
+
+## 环境部署  
+  
+## 推理    
+  
+## 测试  
+  
+     
 第一部分（CTPN):   
 CTPN步骤：  
 1.首先，用VGG16的前5个Conv stage得到 feature map，大小为 W×H×C。  
