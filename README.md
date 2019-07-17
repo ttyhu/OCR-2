@@ -1,35 +1,37 @@
 # OCR
 CTPN+Densenet+CTC   
-1，基于CTPN进行文本检测  
-2，基于Densenet+CTC进行文本识别  
+1，Text Detection Based on CTPN  
+2，Text Recognition Based on Densenet+CTC  
   
-### 环境部署  
+### Environmental deployment 
 ```python
 sh setup.sh  
 ```
-CPU环境执行前需注释掉for gpu部分，并解开for cpu部分的注释  
+Before the CPU environment is executed, the part for GPU needs to be commented out and the part for CPU needs to be uncommented.    
    
-### 推理     
-将测试图片放入test_images目录，检测结果会保存到test_result中  
+### Inference     
+Put the test images in the ./test_images, and the test results will be saved in ./test_results.  
 ```python
 python test.py   
 ```
   
-### 训练  
-1.CTPN训练，详见ctpn/README.md     
-2.Densenet训练   
-数据集：https://pan.baidu.com/s/1QkI7kjah8SPHwOQ40rS1Pw (密码：lu7m)  
-共约364万张图片，按照99:1划分，图片分辨率统一为280x32，图片解压后放置到train/images目录下，描述文件放到train目录下。  
+### Train  
+1.Train CTPN，See for details in ./ctpn/README.md     
+2.Train Densenet   
+Dataset：https://pan.baidu.com/s/1QkI7kjah8SPHwOQ40rS1Pw (Password：lu7m)  
+A total of 3.64 million pictures were divided into 99:1 images with a resolution of 280x32.  
+After decompression, pictures should be placed in ./train/images directory and the description files should be placed in ./train directory.  
+
 ```python
 cd train
 python train.py
 ```
   
-### 原理  
-第一部分（CTPN):   
-CTPN步骤：  
-1.首先，用VGG16的前5个Conv stage得到 feature map，大小为 W×H×C。  
-2.用3×3的滑动窗口在前一步得到的 feature map上提取特征，利用这些特征来对多个 anchor进行预测,这里 anchor定义与之前 faster-rcnn中的定义相同，也就是帮我们去界定出目标待选区域。  
+### Theory  
+Part I（CTPN):   
+CTPN：  
+1.use the first five Conv stage of VGG16 to get the feature map，with the size of W×H×C.    
+2.use 3×3 slide windows to extraction feature in above feature map，we use these features to predict based on anchors, the define of anchor is the same as faster-rcnn，which is to help us define the target areas to be selected.  
 3.将上一步得到的特征输入到一个双向的 LSTM中，输出 W×256的结果，再将这个结果输入到一个512维的全连接层。  
 4.最后通过分类或回归得到的输出主要分为三部分，根据上图从上到下依次为2k vertical coordinates（表示选择框的高度和中心的y轴的坐标）；2k scores（表示的是k个 anchor的类别信息，说明其是否为字符）；k side-refinement（表示的是选择框的水平偏移量）。本文实验中anchor的水平宽度都是16个像素不变。  
 5.用文本构造的算法，将我们得到的细长的矩形合并成文本的序列框。  
