@@ -30,22 +30,23 @@ python train.py
 ### Theory  
 Part I（CTPN):   
 CTPN：  
-1.use the first five Conv stage of VGG16 to get the feature map，with the size of W×H×C.    
-2.use 3×3 slide windows to extraction feature in above feature map，we use these features to predict based on anchors, the define of anchor is the same as faster-rcnn，which is to help us define the target areas to be selected.  
-3.将上一步得到的特征输入到一个双向的 LSTM中，输出 W×256的结果，再将这个结果输入到一个512维的全连接层。  
-4.最后通过分类或回归得到的输出主要分为三部分，根据上图从上到下依次为2k vertical coordinates（表示选择框的高度和中心的y轴的坐标）；2k scores（表示的是k个 anchor的类别信息，说明其是否为字符）；k side-refinement（表示的是选择框的水平偏移量）。本文实验中anchor的水平宽度都是16个像素不变。  
-5.用文本构造的算法，将我们得到的细长的矩形合并成文本的序列框。  
-重点:  
-1.anchor:和 Faster-Rcnn中的RPN的主要区别在于引入了微分思想，将我们的的候选区域切成长条形的框来进行处理。k个 anchor（也就是k个待选的长条预选区域）的设置如下：宽度都是16像素，高度从11~273像素变化（每次乘以1.4）。  
-2.RNN用于记录上一时刻状态，LSTM长短记忆之前的状态信息，BLSTM（双向LSTM）可以长短记忆之前和之后的状态信息。   
-3.anchor文本框的合并，主要是采用pairs的形式。  
+1.Use the first five Conv stage of VGG16 to get the feature map，with the size of W×H×C.    
+2.Use 3×3 slide windows to extraction feature in above feature map，we use these features to predict based on anchors, the define of anchor is the same as faster-rcnn，which is to help us define the target areas to be selected.  
+3.Put the features from the previous step into a bidirectional LSTM, output the size of W×256，put the result into a 512-dimensional full connection layer.    
+4.Finally, the output obtained by classification or regression is divided into three parts.According to the figure above, the order from top to bottom is 2k vertical coordinates（Coordinates of the y-axis representing the height and center of the selection box）；2k scores（Represents the category information of K anchors, indicating whether they are characters or not.）；k side-refinement（Represents the horizontal offset of the selection box）。In this project, the horizontal width of anchor is 16 pixels unchanged.  
+5.Using the algorithm of text construction, we merge the slender rectangle to get the text sequence box.  
+
+Importance:  
+1.anchor:The main difference to RPN in Faster-Rcnn is the introduction of calculus thought to cut our candidate regions into stripes. The K anchors (that is, K preferred strips) are set as follows: the width is 16 pixels, and the height varies from 11 to 273 pixels (multiplied by 1.4 each time).    
+2.RNN is used to record the last state，LSTM is used to record information before long and short memory，BLSTM（two-way LSTM） is used to record information of State information before and after.    
+3.Anchor combination of text boxes is mainly in the form of pairs.
         
             
-第二部分（Densenet）：  
-这里文字识别实现方式，其实就是分类，本项目采用了5990个汉字，对输入图像进行分类，共有5990类别。  
-数据集是基于上述百度云链接，同时你也可以自定义生成自己所需要的数据样本内容。  
-参考链接：https://github.com/DongfeiJi/OCRDataGenerator  
+Part II（Densenet）：  
+In this project, 5990 Chinese characters are used to classify the input images. There are 5990 categories.    
+The dataset is based on the above Baidu cloud links, and you can customize the data sample content you need.  
+Reference：https://github.com/DongfeiJi/OCRDataGenerator  
      
-实际应用我遇到几个坑：  
-坑1:输入编码与汉字下标对应问题，大家可以注意一下。  
-坑2:指标问题，面对不同实际生产环境，采用的评价指标可能不同，训练代码是基于Keras进行编写，可以自行编写指标代码。
+In practical application, I encounter several issues:  
+Issue 1：We should pay attention to the correspondence between input coding and Chinese character subscripts.
+Issue 2：The evaluation  may be different in different actual production environments. The training code is based on Keras and can be written by yourself.  
